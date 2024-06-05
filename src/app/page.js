@@ -4,7 +4,7 @@ import Book from "./components/Book";
 export default function Home() {
   return (
     <main style={{ minHeight: "85vh" }}>
-      <h1 className="my-12 text-6xl text-center">Codex's Library</h1>
+      <h1 className="my-12 text-6xl text-center">Codex&apos;s Library</h1>
       <h2 className="text-3xl text-center">We have the best books!</h2>
 
       <div>
