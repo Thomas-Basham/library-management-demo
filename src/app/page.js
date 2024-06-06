@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Book from "./components/Book";
+import Book from "../components/Book";
 
 export default function Home() {
   return (
