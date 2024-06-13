@@ -14,7 +14,7 @@ export default function Home() {
     new Book("The Catcher in the Rye", "J.D. Salinger", "InStoreNumber3", 3),
     new Book("Hamlet", "William Shakespeare", "InStoreNumber4", 4),
   ];
-  
+
   //New library object made with a name and books array passed in
   const library = new Library("Codex January Cohort's Library", libraryBooks);
 
