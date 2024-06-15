@@ -36,6 +36,21 @@ export default function ManagementPage() {
 
   function updateBook(bookToUpdate) {
     console.log("UPDATED BOOK FROM LIBRARY", bookToUpdate);
+
+    const newBooks = library.books.map((book) => {
+      return book.isbn === bookToUpdate.isbn ? bookToUpdate : book;
+    });
+
+    const newLibrary = new Library("Codex January Cohort", newBooks);
+
+    setLibrary(newLibrary);
+  }
+
+  function deleteBook(isbn) {
+    const newLibrary = new Library(library.name, library.books);
+    newLibrary.removeBook(isbn);
+
+    setLibrary(newLibrary);
   }
 
   return (
@@ -99,6 +114,7 @@ export default function ManagementPage() {
             isbn={book.isbn}
             availableCopies={book.availableCopies}
             updateBook={updateBook}
+            deleteBook={deleteBook}
           />
         );
       })}
