@@ -12,6 +12,7 @@ export default function ManagementPage() {
 
   useEffect(() => {
     async function fetchData() {
+      // try to get all documents, if you cant, catch the error
       try {
         const documents = await getAllDocuments(db, "books");
         const bookInstances = documents.map((doc) => {
