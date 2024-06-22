@@ -1,22 +1,33 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookComponent from "@/components/Book";
 import { Book, Library } from "@/utils/library";
+import { getAllDocuments } from "@/utils/firebaseUtils";
+import { db } from "../../../firebase.config";
 
 export default function ManagementPage() {
   const [library, setLibrary] = useState(
-    new Library("Codex January Cohort", [
-      new Book("To Kill a Mockingbird", "Harper Lee", "InStoreNumber1", 2),
-      new Book(
-        "The Adventures of Huckleberry Finn",
-        "Marl Twain",
-        "InStoreNumber2",
-        1
-      ),
-      new Book("The Catcher in the Rye", "J.D. Salinger", "InStoreNumber3", 3),
-      new Book("Hamlet", "William Shakespeare", "InStoreNumber4", 4),
-    ])
+    new Library("Codex January Cohort", [])
   );
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const documents = await getAllDocuments(db, "books");
+        const bookInstances = documents.map((doc) => {
+          return new Book(doc.title, doc.author, doc.isbn, doc.availableCopies);
+        });
+        setLibrary(new Library(library.name, bookInstances));
+      } catch (error) {
+        console.log("Failed fetching data", error);
+      }
+    }
+
+    fetchData();
+    return () => {
+      console.log("get all docs cleanup");
+    };
+  }, []);
 
   function handleAddBook(e) {
     e.preventDefault();
