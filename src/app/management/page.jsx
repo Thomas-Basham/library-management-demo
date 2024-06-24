@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import BookComponent from "@/components/Book";
 import { Book, Library } from "@/utils/library";
-import { getAllDocuments } from "@/utils/firebaseUtils";
+import { getAllDocuments, addDocument } from "@/utils/firebaseUtils";
 import { db } from "../../../firebase.config";
 
 export default function ManagementPage() {
@@ -39,6 +39,13 @@ export default function ManagementPage() {
       e.target.isbn.value,
       parseInt(e.target.availableCopies.value)
     );
+
+    addDocument(db, "books", {
+      title: e.target.title.value,
+      author: e.target.author.value,
+      isbn: e.target.isbn.value,
+      availableCopies: parseInt(e.target.availableCopies.value),
+    });
 
     const newLibrary = new Library(library.name, library.books);
     newLibrary.addBook(newBook);
