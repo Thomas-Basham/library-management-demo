@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from "react";
 import BookComponent from "@/components/Book";
 import { Book, Library } from "@/utils/library";
-import { getAllDocuments, addDocument } from "@/utils/firebaseUtils";
+import {
+  getAllDocuments,
+  addDocument,
+  updateDocument,
+} from "@/utils/firebaseUtils";
 import { db } from "../../../firebase.config";
 
 export default function ManagementPage() {
@@ -16,8 +20,16 @@ export default function ManagementPage() {
       try {
         const documents = await getAllDocuments(db, "books");
         const bookInstances = documents.map((doc) => {
-          return new Book(doc.title, doc.author, doc.isbn, doc.availableCopies);
+          const book = new Book(
+            doc.title,
+            doc.author,
+            doc.isbn,
+            doc.availableCopies
+          );
+          book.id = doc.id; // get id from firestore doc
+          return book;
         });
+        console.log(bookInstances);
         setLibrary(new Library(library.name, bookInstances));
       } catch (error) {
         console.log("Failed fetching data", error);
@@ -53,8 +65,21 @@ export default function ManagementPage() {
     setLibrary(newLibrary);
   }
 
-  function updateBook(bookToUpdate) {
+  /**
+   *
+   * @param {Book} bookToUpdate an instance of a Book class
+   */
+  async function updateBook(bookToUpdate) {
     console.log("UPDATED BOOK FROM LIBRARY", bookToUpdate);
+
+    const bookObj = {
+      title: bookToUpdate.title,
+      author: bookToUpdate.author,
+      isbn: bookToUpdate.isbn,
+      availableCopies: bookToUpdate.availableCopies,
+    };
+
+    await updateDocument(db, "books", bookToUpdate.id, bookObj);
 
     const newBooks = library.books.map((book) => {
       return book.isbn === bookToUpdate.isbn ? bookToUpdate : book;
@@ -127,6 +152,7 @@ export default function ManagementPage() {
       {library.books.map((book, index) => {
         return (
           <BookComponent
+            id={book.id}
             key={index}
             title={book.title}
             author={book.author}
@@ -134,6 +160,7 @@ export default function ManagementPage() {
             availableCopies={book.availableCopies}
             updateBook={updateBook}
             deleteBook={deleteBook}
+            isManagementPage={true}
           />
         );
       })}
