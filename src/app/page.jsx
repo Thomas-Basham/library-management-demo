@@ -32,24 +32,30 @@ export default function Home() {
 
   return (
     <main style={{ minHeight: "85vh" }}>
-      <h1 className="my-12 text-6xl text-center">Codex&apos;s Library</h1>
-      <h2 className="text-3xl text-center">We have the best books!</h2>
+      <h1 className="py-12 text-6xl text-center bg-emerald-500">
+        Codex&apos;s Library
+      </h1>
+      <h2 className="py-3 text-3xl text-center bg-emerald-300">
+        We have the best books!
+      </h2>
 
       <div>
         <h3 className="m-5 text-xl">Book list</h3>
         <hr className="mx-5"></hr>
-
-        {library.books.map((book) => {
-          return (
-            <BookComponent
-              key={book.isbn}
-              title={book.title}
-              author={book.author}
-              isbn={book.isbn}
-              availableCopies={book.availableCopies}
-            />
-          );
-        })}
+        <div className="flex flex-wrap">
+          {library.books.map((book) => {
+            return (
+              <div key={book.isbn} className="w-1/4">
+                <BookComponent
+                  title={book.title}
+                  author={book.author}
+                  isbn={book.isbn}
+                  availableCopies={book.availableCopies}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </main>
   );

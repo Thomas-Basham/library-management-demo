@@ -40,7 +40,7 @@ export default function BookComponent({
     setIsEditing(false);
   }
   return (
-    <div className="flex justify-between p-5 m-5 border border-black rounded-md bg-emerald-500">
+    <div className="flex justify-between p-5 m-5 overflow-auto border border-black rounded-md bg-emerald-500">
       {isEditing ? (
         <form
           onSubmit={handleUpdateFormSubmit}
@@ -138,7 +138,7 @@ export default function BookComponent({
               </button>
 
               <button
-                onClick={() => deleteBook(isbn)}
+                onClick={() => deleteBook(isbn, id)}
                 title="Edit this book"
                 className="p-2 my-4 rounded border-emerald-900 hover:bg-emerald-600"
               >

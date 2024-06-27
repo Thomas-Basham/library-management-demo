@@ -6,6 +6,7 @@ import {
   getAllDocuments,
   addDocument,
   updateDocument,
+  deleteDocument,
 } from "@/utils/firebaseUtils";
 import { db } from "../../../firebase.config";
 
@@ -14,7 +15,6 @@ export default function ManagementPage() {
     new Library("Codex January Cohort", [])
   );
 
-  
   useEffect(() => {
     async function fetchData() {
       // try to get all documents, if you cant, catch the error
@@ -91,7 +91,8 @@ export default function ManagementPage() {
     setLibrary(newLibrary);
   }
 
-  function deleteBook(isbn) {
+  async function deleteBook(isbn, docID) {
+    await deleteDocument(db, "books", docID);
     const newLibrary = new Library(library.name, library.books);
     newLibrary.removeBook(isbn);
 
@@ -100,8 +101,12 @@ export default function ManagementPage() {
 
   return (
     <div>
-      <h1 className="my-12 text-6xl text-center">Management Page</h1>
-
+      <h1 className="py-12 text-6xl text-center bg-emerald-500">
+        Management Page
+      </h1>
+      <h2 className="py-3 text-3xl text-center bg-emerald-300">
+        We have the best Management!
+      </h2>
       <form
         onSubmit={handleAddBook}
         className="p-5 m-5 border border-emerald-800"

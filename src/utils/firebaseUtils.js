@@ -4,6 +4,7 @@ import {
   addDoc,
   doc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 /**
@@ -58,8 +59,26 @@ async function updateDocument(db, collectionName, id, data) {
       console.log("NO reference to doc found with id:", id);
     }
   } catch (error) {
-    console.error("Error adding document: ", error);
+    console.error("Error Updating document: ", error);
   }
 }
 
-export { getAllDocuments, addDocument, updateDocument };
+/**
+ * Deletes a document from a Cloud Firestore db
+ * @param {database instance} db An instance of a Cloud Firestore Database
+ * @param {string} collectionName The name of a Firestore db collection
+ * @param {string} id id of cloud firestore document
+ */
+async function deleteDocument(db, collectionName, id) {
+  try {
+    const docRef = doc(db, collectionName, id);
+    if (docRef) {
+      await deleteDoc(docRef);
+      console.log("Doc deleted with ID: ", docRef.id);
+    }
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+  }
+}
+
+export { getAllDocuments, addDocument, updateDocument, deleteDocument };

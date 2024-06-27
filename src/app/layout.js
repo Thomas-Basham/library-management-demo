@@ -14,22 +14,22 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="w-100">
+        <header className="w-100 bg-emerald-800">
           <nav className="flex justify-center w-100 ">
             <Link
-              className="m-1 text-emerald-500 hover:text-emerald-700"
+              className="m-1 text-emerald-300 hover:text-emerald-600"
               href="/"
             >
               Home
             </Link>
             <Link
-              className="m-1 text-emerald-500 hover:text-emerald-700"
+              className="m-1 text-emerald-300 hover:text-emerald-600"
               href="/management"
             >
               Manage Library
             </Link>
             <Link
-              className="m-1 text-emerald-500 hover:text-emerald-700"
+              className="m-1 text-emerald-300 hover:text-emerald-600"
               href="/about"
             >
               About
