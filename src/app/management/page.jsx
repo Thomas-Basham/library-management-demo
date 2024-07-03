@@ -10,10 +10,16 @@ import {
 } from "@/utils/firebaseUtils";
 import { db } from "../../../firebase.config";
 
+import AddBookForm from "@/components/AddBookForm";
+import RegisterForm from "@/components/RegisterForm";
+import LoginForm from "@/components/LoginForm";
+import LogoutButton from "@/components/LogoutButton";
+
 export default function ManagementPage() {
   const [library, setLibrary] = useState(
     new Library("Codex January Cohort", [])
   );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -99,6 +105,11 @@ export default function ManagementPage() {
     setLibrary(newLibrary);
   }
 
+  const scrollToLoginForm = () => {
+    document
+      .getElementById("login-form")
+      .scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div>
       <h1 className="py-12 text-6xl text-center bg-emerald-500">
@@ -107,69 +118,45 @@ export default function ManagementPage() {
       <h2 className="py-3 text-3xl text-center bg-emerald-300">
         We have the best Management!
       </h2>
-      <form
-        onSubmit={handleAddBook}
-        className="p-5 m-5 border border-emerald-800"
-      >
-        <h2 className="mb-2 text-2xl">Add a Book</h2>
-        <div>
-          <input
-            className="w-1/4 p-1 border rounded border-emerald-600"
-            placeholder="Title"
-            type="text"
-            name="title"
-            id="title-input"
-            required
-          />
-          <input
-            className="w-1/4 p-1 border rounded border-emerald-600"
-            placeholder="Author"
-            type="text"
-            name="author"
-            id="author-input"
-            required
-          />
-          <input
-            className="w-1/4 p-1 border rounded border-emerald-600"
-            placeholder="ISBN"
-            type="text"
-            name="isbn"
-            id="isbn"
-            required
-          />
-          <input
-            className="w-1/4 p-1 border rounded border-emerald-600"
-            placeholder="Available Copies"
-            type="number"
-            name="availableCopies"
-            // id="available-copies"
-            min={0}
-            required
-          />
-        </div>
-        <button
-          className="p-2 my-4 border rounded border-emerald-500 hover:bg-emerald-600"
-          type="submit"
-        >
-          Submit
-        </button>
-      </form>
 
-      {library.books.map((book, index) => {
-        return (
-          <BookComponent
-            id={book.id}
-            key={index}
-            title={book.title}
-            author={book.author}
-            isbn={book.isbn}
-            availableCopies={book.availableCopies}
-            updateBook={updateBook}
-            deleteBook={deleteBook}
-            isManagementPage={true}
-          />
-        );
-      })}
+      {!isLoggedIn ? (
+        <>
+          <RegisterForm />
+          <p className="text-center bg-emerald-50">
+            Already registered?
+            <button
+              onClick={scrollToLoginForm}
+              className="text-emerald-500 hover:text-emerald-600"
+            >
+              &nbsp;Login here{" "}
+            </button>
+          </p>
+          <LoginForm />
+        </>
+      ) : (
+        <>
+          <div className="my-2 text-center">
+            <LogoutButton />
+          </div>
+
+          <AddBookForm handleAddBook={handleAddBook} />
+          {library.books.map((book, index) => {
+            return (
+              <BookComponent
+                id={book.id}
+                key={index}
+                title={book.title}
+                author={book.author}
+                isbn={book.isbn}
+                availableCopies={book.availableCopies}
+                updateBook={updateBook}
+                deleteBook={deleteBook}
+                isManagementPage={true}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }
