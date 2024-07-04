@@ -1,12 +1,9 @@
-// components/LogoutButton.js
-const LogoutButton = ({ onLogout }) => {
-  const handleLogout = () => {
+import { logout } from "@/utils/authUtils";
+
+const LogoutButton = () => {
+  const handleLogout = async () => {
     // Add your logout logic here
-    console.log("User logged out");
-    if (onLogout) {
-      onLogout();
-      
-    }
+    await logout();
   };
 
   return (

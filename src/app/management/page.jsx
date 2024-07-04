@@ -8,7 +8,7 @@ import {
   updateDocument,
   deleteDocument,
 } from "@/utils/firebaseUtils";
-import { db } from "../../../firebase.config";
+import { db, auth } from "../../../firebase.config";
 
 import AddBookForm from "@/components/AddBookForm";
 import RegisterForm from "@/components/RegisterForm";
@@ -19,7 +19,6 @@ export default function ManagementPage() {
   const [library, setLibrary] = useState(
     new Library("Codex January Cohort", [])
   );
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -110,6 +109,7 @@ export default function ManagementPage() {
       .getElementById("login-form")
       .scrollIntoView({ behavior: "smooth" });
   };
+
   return (
     <div>
       <h1 className="py-12 text-6xl text-center bg-emerald-500">
@@ -119,7 +119,7 @@ export default function ManagementPage() {
         We have the best Management!
       </h2>
 
-      {!isLoggedIn ? (
+      {!auth.currentUser ? (
         <>
           <RegisterForm />
           <p className="text-center bg-emerald-50">

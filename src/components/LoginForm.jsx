@@ -1,14 +1,15 @@
 import { useState } from "react";
-
+import { login } from "@/utils/authUtils";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your login logic here
     console.log("Email:", email);
     console.log("Password:", password);
+    await login(email, password);
   };
 
   return (

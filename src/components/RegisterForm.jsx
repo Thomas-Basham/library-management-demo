@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { registerUser } from "@/utils/authUtils";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your registration logic here
     console.log("Email:", email);
     console.log("Password:", password);
+    await registerUser(email, password);
   };
 
   return (
