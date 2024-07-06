@@ -31,3 +31,4 @@ This application is deployed on Vercel. You can view the live site at: [deployme
 - Tailwind CSS
   
 - Google Firebase
+  
